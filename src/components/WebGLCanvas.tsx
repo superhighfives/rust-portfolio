@@ -7,12 +7,15 @@ const VERTEX_SHADER = `#version 300 es
   in vec2 a_position;
   in float a_velocity;
   uniform vec2 u_resolution;
+  uniform float u_scroll_offset;
 
   out float v_velocity;
 
   void main() {
     // Convert pixel coords to clip space (-1 to 1)
-    vec2 clipSpace = (a_position / u_resolution) * 2.0 - 1.0;
+    vec2 pos = a_position;
+    pos.y += u_scroll_offset * -5.0;
+    vec2 clipSpace = (pos / u_resolution) * 2.0 - 1.0;
     clipSpace.y *= -1.0; // Flip Y for screen coords
 
     gl_Position = vec4(clipSpace, 0.0, 1.0);
@@ -80,12 +83,14 @@ interface GLState {
   posLoc: number
   velLoc: number
   resLoc: WebGLUniformLocation
+  scrollLoc: WebGLUniformLocation
   vao: WebGLVertexArrayObject
 }
 
 export default function WebGLCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const glStateRef = useRef<GLState | null>(null)
+  const scrollRef = useRef({ lastY: 0, offset: 0 })
 
   // Initialize WebGL
   useEffect(() => {
@@ -114,8 +119,9 @@ export default function WebGLCanvas() {
     gl.bindVertexArray(null)
 
     const resLoc = gl.getUniformLocation(program, 'u_resolution')!
+    const scrollLoc = gl.getUniformLocation(program, 'u_scroll_offset')!
 
-    glStateRef.current = { gl, program, posBuffer, velBuffer, posLoc, velLoc, resLoc, vao }
+    glStateRef.current = { gl, program, posBuffer, velBuffer, posLoc, velLoc, resLoc, scrollLoc, vao }
 
     function resize() {
       canvas.width = window.innerWidth * devicePixelRatio
@@ -135,7 +141,14 @@ export default function WebGLCanvas() {
     const state = glStateRef.current
     if (!state) return
 
-    const { gl, program, posBuffer, velBuffer, resLoc, vao } = state
+    const { gl, program, posBuffer, velBuffer, resLoc, scrollLoc, vao } = state
+
+    // Scroll offset: accumulate delta, decay smoothly
+    const scroll = scrollRef.current
+    const scrollY = window.scrollY
+    scroll.offset += (scrollY - scroll.lastY) * 0.15
+    scroll.lastY = scrollY
+    scroll.offset *= 0.9 // exponential decay
 
     // Compute velocity magnitudes for each particle
     const velMagnitudes = new Float32Array(count)
@@ -152,6 +165,7 @@ export default function WebGLCanvas() {
 
     gl.useProgram(program)
     gl.uniform2f(resLoc, window.innerWidth, window.innerHeight)
+    gl.uniform1f(scrollLoc, scroll.offset)
 
     gl.bindVertexArray(vao)
 

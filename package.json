@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "wasm:build": "cd wasm && wasm-pack build --target web",
-    "dev": "vite",
+    "wasm:watch": "cd wasm && cargo watch -s 'wasm-pack build --target web'",
+    "dev": "npm run wasm:watch & vite",
     "build": "npm run wasm:build && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

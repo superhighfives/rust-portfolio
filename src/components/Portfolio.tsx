@@ -2,7 +2,7 @@ export default function Portfolio() {
   return (
     <main className="portfolio">
       <section className="hero">
-        <h1>Hey, I'm Alex.</h1>
+        <h1>Hey, I'm Charlie.</h1>
         <p className="subtitle">
           Creative developer building at the intersection of design and engineering.
         </p>
