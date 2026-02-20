@@ -9,8 +9,8 @@
     "build": "npm run wasm:build && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "pages:dev": "npx wrangler pages dev dist",
-    "pages:deploy": "npm run build && npx wrangler pages deploy dist"
+    "dev:worker": "npx wrangler dev",
+    "deploy": "npm run build && npx wrangler deploy"
   },
   "dependencies": {
     "react": "^19.2.0",

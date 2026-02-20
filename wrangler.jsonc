@@ -1,5 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "rust-portfolio",
-  "pages_build_output_dir": "dist"
+  "compatibility_date": "2026-02-19",
+  "assets": {
+    "directory": "dist"
+  }
 }

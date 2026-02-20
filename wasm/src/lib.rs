@@ -42,10 +42,10 @@ impl AnimationEngine {
             velocities,
             home_positions,
             count,
-            spring_stiffness: 0.015,
-            damping: 0.92,
-            mouse_radius: 150.0,
-            mouse_strength: 8.0,
+            spring_stiffness: 0.008,
+            damping: 0.95,
+            mouse_radius: 250.0,
+            mouse_strength: 20.0,
         }
     }
 

@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react'
 import { useAnimationEngine } from '../hooks/useAnimationEngine'
 
-const PARTICLE_COUNT = 800
+const PARTICLE_COUNT = 1500
 
 const VERTEX_SHADER = `#version 300 es
   in vec2 a_position;
@@ -20,8 +20,8 @@ const VERTEX_SHADER = `#version 300 es
     // Pass velocity to fragment shader
     v_velocity = a_velocity;
 
-    // Point size varies with velocity
-    gl_PointSize = 2.0 + a_velocity * 3.0;
+    // Point size varies with velocity — bigger and more dramatic
+    gl_PointSize = 3.0 + a_velocity * 12.0;
   }
 `
 
@@ -37,15 +37,13 @@ const FRAGMENT_SHADER = `#version 300 es
     float dist = length(center);
     if (dist > 0.5) discard;
 
-    float alpha = smoothstep(0.5, 0.1, dist);
-    // Subtle white/blue glow, brighter when moving fast
-    float brightness = 0.3 + v_velocity * 0.5;
-    outColor = vec4(
-      0.6 + v_velocity * 0.2,
-      0.7 + v_velocity * 0.15,
-      0.9,
-      alpha * brightness
-    );
+    float alpha = smoothstep(0.5, 0.0, dist);
+    // Shift from cool blue at rest to hot white/pink when moving fast
+    float brightness = 0.4 + v_velocity * 0.8;
+    vec3 coolColor = vec3(0.3, 0.4, 0.9);   // blue at rest
+    vec3 hotColor = vec3(1.0, 0.7, 0.9);     // hot pink/white when fast
+    vec3 color = mix(coolColor, hotColor, v_velocity);
+    outColor = vec4(color, alpha * brightness);
   }
 `
 
@@ -150,7 +148,7 @@ export default function WebGLCanvas() {
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.enable(gl.BLEND)
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE) // Additive blending for glow
 
     gl.useProgram(program)
     gl.uniform2f(resLoc, window.innerWidth, window.innerHeight)
