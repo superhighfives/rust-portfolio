@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #e0e0e0;
+  background: #0a0a0f;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.portfolio {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section {
+  padding: 4rem 0;
+}
+
+.hero {
+  padding-top: 20vh;
+  padding-bottom: 6rem;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: #8888aa;
+  line-height: 1.5;
+}
+
+h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6666aa;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #b0b0c8;
+}
+
+.project-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.project-list li {
+  padding: 1.5rem;
+  border: 1px solid rgba(100, 100, 180, 0.15);
+  border-radius: 12px;
+  background: rgba(15, 15, 30, 0.6);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s;
+}
+
+.project-list li:hover {
+  border-color: rgba(100, 100, 180, 0.4);
+}
+
+.project-list h3 {
+  font-size: 1.2rem;
+  color: #d0d0e8;
+  margin-bottom: 0.5rem;
+}
+
+.project-list p {
+  font-size: 0.95rem;
+  color: #8888a8;
+}
+
+.contact a {
+  color: #7777cc;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(119, 119, 204, 0.3);
+  transition: border-color 0.3s;
+}
+
+.contact a:hover {
+  border-bottom-color: #7777cc;
+}
