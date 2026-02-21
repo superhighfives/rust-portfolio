@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "wasm:build": "cd wasm && wasm-pack build --target web",
-    "wasm:watch": "cd wasm && cargo watch -s 'wasm-pack build --target web'",
+    "wasm:build": "cd wasm && mise exec -- wasm-pack build --target web",
+    "wasm:watch": "cd wasm && mise exec -- cargo watch -s 'wasm-pack build --target web'",
     "dev": "npm run wasm:watch & vite",
     "build": "npm run wasm:build && tsc -b && vite build",
     "lint": "eslint .",
